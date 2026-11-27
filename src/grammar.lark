@@ -1,0 +1,37 @@
+start: declaration* [value]
+declaration: _CONST NAME "=" value
+
+?value: HEX -> hexadecimal
+      | STRING -> string
+      | array
+      | "$" expression "$"
+
+array: _LIST "(" [value ("," value)*] ")"
+
+?expression: expression "+" operand -> add
+           | expression "-" operand -> subtract
+           | operand
+
+?operand: HEX -> hexadecimal
+        | DECIMAL -> decimal
+        | STRING -> string
+        | array
+        | name -> reference
+        | "(" expression ")"
+        | LEN "(" expression ")" -> length
+
+?name: NAME | LEN
+
+_CONST: /const(?![a-zA-Z0-9_])/
+_LIST: /list(?![a-zA-Z0-9_])/
+LEN.2: /len(?![a-zA-Z0-9_])/
+
+HEX.2: /0[xX][0-9a-fA-F]+(?![a-zA-Z0-9_])/
+DECIMAL: /[0-9]+(?![a-zA-Z0-9_])/
+NAME: /[a-z]+/
+STRING: /\[\[(?s:.*?)\]\]/
+COMMENT: /'[^\r\n]*/
+
+%import common.WS
+%ignore WS
+%ignore COMMENT
