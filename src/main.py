@@ -51,7 +51,7 @@ class Evaluate(Transformer):
     def string(self, token):
         return str(token)[2:-2]
 
-    def array(self, *items):
+    def array(self, _keyword, *items):
         return list(items)
 
     def add(self, left, right):

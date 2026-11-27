@@ -6,7 +6,7 @@ declaration: _CONST NAME "=" value
       | array
       | "$" expression "$"
 
-array: _LIST "(" [value ("," value)*] ")"
+array: LIST "(" [value ("," value)*] ")"
 
 ?expression: expression "+" operand -> add
            | expression "-" operand -> subtract
@@ -20,10 +20,10 @@ array: _LIST "(" [value ("," value)*] ")"
         | "(" expression ")"
         | LEN "(" expression ")" -> length
 
-?name: NAME | LEN
+?name: NAME | LEN | LIST
 
 _CONST: /const(?![a-zA-Z0-9_])/
-_LIST: /list(?![a-zA-Z0-9_])/
+LIST.2: /list(?![a-zA-Z0-9_])/
 LEN.2: /len(?![a-zA-Z0-9_])/
 
 HEX.2: /0[xX][0-9a-fA-F]+(?![a-zA-Z0-9_])/
